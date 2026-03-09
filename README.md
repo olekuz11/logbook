@@ -28,8 +28,8 @@ open `index.html`. paste this block at the **top** of `<main>`, just after the c
 
 ## how to add a sonic entry
 
-1. record on phone → save as `.ogg` or `.mp3`
-2. rename: `tape_NNN_location_detail.ogg` (e.g. `tape_004_bus_rain.ogg`)
+1. record on phone → save 
+2. rename: `tape_NNN_location_detail.ogg` (e.g. `tape_004_bus_rain.ogg` etc.)
 3. drop the file into `sounds/`
 4. add entry to `index.html` with `data-tag="sonic"` and an `<audio>` element:
 
