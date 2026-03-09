@@ -1,6 +1,6 @@
 # logbook
 
-field notes. progress. sounds. things noticed.
+personal HTML field notes. progress. sounds. things noticed.
 
 → [olekuz11.github.io/logbook](https://olekuz11.github.io/logbook)
 
@@ -9,17 +9,16 @@ field notes. progress. sounds. things noticed.
 ## how to add an entry
 
 open `index.html`. paste this block at the **top** of `<main>`, just after the comment:
-
 ```html
-
-  
-    YYYY-MM-DD
-    TAGNAME
-  
-  
-    your text here.
-  
-
+<article class="entry" data-tag="TAGNAME">
+  <div class="entry-meta">
+    <time class="entry-date">YYYY-MM-DD</time>
+    <span class="entry-tag TAGNAME">TAGNAME</span>
+  </div>
+  <div class="entry-body">
+    <p>your text here.</p>
+  </div>
+</article>
 ```
 
 **tags:** `progress` / `reading` / `listening` / `watching` / `sonic` / `thinking`
@@ -28,44 +27,29 @@ open `index.html`. paste this block at the **top** of `<main>`, just after the c
 
 ## how to add a sonic entry
 
-1. record on phone → save 
-2. rename: `tape_NNN_location_detail.ogg` (e.g. `tape_004_bus_rain.ogg` etc.)
-3. drop the file into `sounds/`
-4. add entry to `index.html` with `data-tag="sonic"` and an `<audio>` element:
-
-```html
-
-  
-    YYYY-MM-DD
-    sonic
-  
-  
-    brief note on what it is.
-    
-      tape_NNN — description
-      
-        
-      
-    
-  
-
-```
+1. record on phone — use hyphens not spaces in filename (e.g. `tape_002_midnight-kitchen.m4a`)
+2. upload to **archive.org/upload** — add to existing item or create one dedicated item for the whole diary
+3. get the stable direct URL from the download section:
+   `https://archive.org/download/ITEM-IDENTIFIER/filename.m4a`
+4. add entry to `index.html` with `data-tag="sonic"` and an `<audio>` element (see below)
 
 sonic entries appear in both the main log and automatically in `sound.html`.
 
 ---
 
 ## file structure
-
 ```
 logbook/
 ├── index.html     ← the log (edit this to add entries)
 ├── sound.html     ← sonic diary (auto-populated)
 ├── style.css      ← all styles
-├── README.md
-└── sounds/        ← drop .ogg / .mp3 files here
+└── README.md
 ```
+
+audio files are hosted on archive.org — not stored in this repo.
 
 ---
 
 *code as if nobody's watching.*
+```
+
