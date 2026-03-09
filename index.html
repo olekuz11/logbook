@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>logbook — olekuz11</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>olekuz11 / logbook</h1>
+    <div class="site-title">field notes</div>
+    <nav>
+      <a href="index.html" class="active">log</a>
+      <span class="nav-sep">/</span>
+      <a href="sound.html">sonic diary</a>
+      <span class="nav-sep">/</span>
+      <a href="https://github.com/olekuz11" target="_blank">github ↗</a>
+    </nav>
+  </header>
+
+  <div class="filter-bar">
+    <span>filter:</span>
+    <button class="filter-btn active" data-filter="all">all</button>
+    <button class="filter-btn" data-filter="progress">progress</button>
+    <button class="filter-btn" data-filter="reading">reading</button>
+    <button class="filter-btn" data-filter="listening">listening</button>
+    <button class="filter-btn" data-filter="watching">watching</button>
+    <button class="filter-btn" data-filter="sonic">sonic</button>
+    <button class="filter-btn" data-filter="thinking">thinking</button>
+  </div>
+
+  <main id="log">
+
+    <!-- ═══════════════════════════════════════════════
+         HOW TO ADD AN ENTRY:
+
+         Copy one of the blocks below and paste it at
+         the TOP of this <main> section (newest first).
+
+         Change:
+         - data-tag="..." to your tag
+         - the date in <time>
+         - the text in <p>
+         - for sonic entries: update the audio src
+
+         Tags: progress / reading / listening /
+               watching / sonic / thinking
+    ════════════════════════════════════════════════ -->
+
+    <!-- EXAMPLE ENTRY: progress -->
+    <article class="entry" data-tag="progress">
+      <div class="entry-meta">
+        <time class="entry-date">2026-03-09</time>
+        <span class="entry-tag progress">progress</span>
+      </div>
+      <div class="entry-body">
+        <p>Day 1. Set up the logbook repo. Nothing works yet. Good.</p>
+      </div>
+    </article>
+
+    <!-- EXAMPLE ENTRY: sonic -->
+    <article class="entry" data-tag="sonic">
+      <div class="entry-meta">
+        <time class="entry-date">2026-03-08</time>
+        <span class="entry-tag sonic">sonic</span>
+      </div>
+      <div class="entry-body">
+        <p>midnight kitchen. water tap. couldn't sleep.</p>
+        <div class="audio-wrap">
+          <span class="audio-label">tape_001 — midnight kitchen</span>
+          <audio controls>
+            <source src="sounds/tape_001_midnight-kitchen_watertap.ogg" type="audio/ogg">
+            your browser doesn't support audio.
+          </audio>
+        </div>
+      </div>
+    </article>
+
+    <!-- EXAMPLE ENTRY: reading -->
+    <article class="entry" data-tag="reading">
+      <div class="entry-meta">
+        <time class="entry-date">2026-03-07</time>
+        <span class="entry-tag reading">reading</span>
+      </div>
+      <div class="entry-body">
+        <p>GEB ch.2 — the dialogue between Achilles and the Tortoise is basically NOWHERE in 1979.</p>
+      </div>
+    </article>
+
+    <!-- EXAMPLE ENTRY: listening -->
+    <article class="entry" data-tag="listening">
+      <div class="entry-meta">
+        <time class="entry-date">2026-03-06</time>
+        <span class="entry-tag listening">listening</span>
+      </div>
+      <div class="entry-body">
+        <p>Alice Coltrane — Journey in Satchidananda. Third time this week. Still finding new rooms in it.</p>
+      </div>
+    </article>
+
+    <!-- EXAMPLE ENTRY: watching -->
+    <article class="entry" data-tag="watching">
+      <div class="entry-meta">
+        <time class="entry-date">2026-03-05</time>
+        <span class="entry-tag watching">watching</span>
+      </div>
+      <div class="entry-body">
+        <p>Tarkovsky — Mirror. Third time overall. Still don't fully understand it. Still can't stop.</p>
+      </div>
+    </article>
+
+    <!-- EXAMPLE ENTRY: thinking -->
+    <article class="entry" data-tag="thinking">
+      <div class="entry-meta">
+        <time class="entry-date">2026-03-04</time>
+        <span class="entry-tag thinking">thinking</span>
+      </div>
+      <div class="entry-body">
+        <p>attention is the only non-renewable resource. everything else can be reclaimed.</p>
+      </div>
+    </article>
+
+  </main>
+
+  <div class="empty-state" id="empty">
+    — no entries with this tag yet —
+  </div>
+
+  <footer>
+    code as if nobody's watching. — <a href="https://github.com/olekuz11" target="_blank">olekuz11</a>
+  </footer>
+
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const entries = document.querySelectorAll('.entry');
+    const empty   = document.getElementById('empty');
+
+    function applyFilter(filter) {
+      let visible = 0;
+
+      entries.forEach(entry => {
+        const match = filter === 'all' || entry.dataset.tag === filter;
+        entry.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+
+      empty.style.display = visible === 0 ? 'block' : 'none';
+
+      buttons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+      });
+
+      // update URL so sonic diary link works
+      if (filter !== 'all') {
+        history.replaceState(null, '', '?filter=' + filter);
+      } else {
+        history.replaceState(null, '', window.location.pathname);
+      }
+    }
+
+    // read filter from URL on load (for sound.html redirect)
+    const params = new URLSearchParams(window.location.search);
+    const initial = params.get('filter') || 'all';
+    applyFilter(initial);
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+    });
+  </script>
+
+</body>
+</html>

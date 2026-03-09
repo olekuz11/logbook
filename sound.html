@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sonic diary — olekuz11</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .sonic-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .sonic-header p {
+      margin-top: 0.5rem;
+      font-size: 13px;
+      color: var(--dim);
+      max-width: 400px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>olekuz11 / logbook</h1>
+    <div class="site-title">sonic diary</div>
+    <nav>
+      <a href="index.html">log</a>
+      <span class="nav-sep">/</span>
+      <a href="sound.html" class="active">sonic diary</a>
+      <span class="nav-sep">/</span>
+      <a href="https://github.com/olekuz11" target="_blank">github ↗</a>
+    </nav>
+  </header>
+
+  <div class="sonic-header">
+    <p>
+      field recordings. daily sounds. things worth preserving because they existed once
+      and were noticed.
+    </p>
+  </div>
+
+  <main id="log">
+    <!-- entries are loaded from index.html via JS below -->
+  </main>
+
+  <div class="empty-state" id="empty" style="display:none;">
+    — no sonic entries yet —
+  </div>
+
+  <footer>
+    code as if nobody's watching. — <a href="https://github.com/olekuz11" target="_blank">olekuz11</a>
+  </footer>
+
+  <script>
+    // Fetch and inject only [sonic] entries from index.html
+    fetch('index.html')
+      .then(r => r.text())
+      .then(html => {
+        const parser   = new DOMParser();
+        const doc      = parser.parseFromString(html, 'text/html');
+        const allEntries = doc.querySelectorAll('.entry[data-tag="sonic"]');
+        const log      = document.getElementById('log');
+        const empty    = document.getElementById('empty');
+
+        if (allEntries.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        allEntries.forEach(entry => {
+          log.appendChild(document.importNode(entry, true));
+        });
+      })
+      .catch(() => {
+        // fallback if fetch fails (e.g. opening file:// locally)
+        document.getElementById('empty').style.display = 'block';
+        document.getElementById('empty').textContent =
+          '— open via a local server or GitHub Pages to load entries —';
+      });
+  </script>
+
+</body>
+</html>
